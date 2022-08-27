@@ -11,7 +11,7 @@ import com.iris22a.pages.MenTshirtPage;
 import com.iris22a.util.Environment;
 import com.iris22a.util.WaitFor;
 
-public class MenTShirtsTests extends TestBase {
+public class MenTShirtsTests  {
 	UIKeyword keyword = new UIKeyword();
 
 	@Test

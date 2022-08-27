@@ -8,14 +8,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import com.google.inject.spi.Element;
+import com.iris22a.pages.HomePage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -25,36 +31,42 @@ import io.github.bonigarcia.wdm.WebDriverManager;
  * 
  */
 
+
 public class UIKeyword {
+	private static final Logger log = Logger.getLogger(UIKeyword.class);
 
 	public static RemoteWebDriver driver;
 
 	public static void openBrowser(String browserName) {
 		if (browserName.equalsIgnoreCase("FireFox")) {
+			FirefoxOptions option = new FirefoxOptions();
+			option.addArguments("--disable-notifications","start-maximized","--incognito");
 			WebDriverManager.firefoxdriver().setup();
 			driver = new FirefoxDriver();
 
 		} else if (browserName.equalsIgnoreCase("Chrome")) {
+			ChromeOptions option = new ChromeOptions();
+			option.addArguments("--disable-notifications","start-maximized","--incognito");
 			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
+			driver = new ChromeDriver(option);
 
 		} else if (browserName.equalsIgnoreCase("IE")) {
 			WebDriverManager.iedriver().setup();
 			driver = new InternetExplorerDriver();
 
 		}
-		System.out.println(browserName + "browser is launched successfully");
+		log.info(browserName + "browser is launched successfully");
 	}
 
 	public static void launchUrl(String url) {
 		driver.get(url);
-		System.out.println("url is launched " + url);
+		log.info("url is launched " + url);
 
 	}
 
 	public static void closeBrowser() {
 		driver.close();
-		System.out.println("browser is closed successfully");
+		log.info("browser is closed successfully");
 	}
 
 	public static void switchToWindow(String byTitle) {
@@ -85,8 +97,8 @@ public class UIKeyword {
 		try {
 			robo = new Robot();
 		} catch (AWTException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.error("unable to instatiate rorbot class instance");
 		}
 		robo.keyPress(KeyCode);
 		robo.keyRelease(KeyCode);
@@ -177,7 +189,7 @@ public class UIKeyword {
 			elements = driver.findElements(By.name(locatorValue));
 
 		} else {
-			System.err.println("Invalid Locator Type: " + locatorType);
+			log.error("Invalid Locator Type: " + locatorType);
 		}
 		return elements;
 
@@ -211,6 +223,10 @@ public class UIKeyword {
 
 	public static void click(WebElement element) {
 		element.click();
-		
+
+	}
+
+	public static void enterText(WebElement element, String productName) {
+		element.sendKeys(productName);
 	}
 }

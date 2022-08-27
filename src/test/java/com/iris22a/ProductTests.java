@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -17,7 +18,9 @@ import com.iris22a.util.Environment;
 import com.iris22a.util.PropUtil;
 import com.iris22a.util.WaitFor;
 
-public class ProductTests extends TestBase {
+public class ProductTests {
+	private static final Logger log = Logger.getLogger(TestBase.class);
+
 	@Test
 
 	public void verifySearchResultForPoloMen() {
@@ -69,8 +72,8 @@ public class ProductTests extends TestBase {
 		home.hoverOnMenMenu();
 		home.clickOnCasualTShirts();
 		CasualShirtsPage casual = new CasualShirtsPage();
-		int itemCount= casual.getItemCount();
-		System.out.println(itemCount);
+		int itemCount = casual.getItemCount();
+		log.info(itemCount);
 
 	}
 }

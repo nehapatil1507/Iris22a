@@ -13,7 +13,7 @@ public class CasualShirtsPage {
 
 	public int getItemCount() {
 		String itemCount = UIKeyword.driver.findElement(this.itemCount).getText();
-		Pattern p = Pattern.compile("//d");
+		Pattern p = Pattern.compile("\\d");
 		Matcher m = p.matcher(itemCount);
 		String count = m.group();
 		return Integer.parseInt(count);
